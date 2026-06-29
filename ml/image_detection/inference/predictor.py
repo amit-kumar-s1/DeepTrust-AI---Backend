@@ -26,11 +26,15 @@ def predict(models, tensors):
     # ----------------------------------------
 
     futures = [
-        executor.submit(_run, models["resnet18"], x224,
-                        lambda m, x: torch.softmax(m(x), dim=1)[:, 1]),
+        executor.submit(
+            _run,
+            models["resnet18"],
+            x224,
+            lambda m, x: 1 - torch.softmax(m(x), dim=1)[:, 1]
+        ),
 
-        executor.submit(_run, models["efficientnet_b0"], x224,
-                        lambda m, x: torch.softmax(m(x), dim=1)[:, 1]),
+        # executor.submit(_run, models["efficientnet_b0"], x224,
+                        # lambda m, x: torch.softmax(m(x), dim=1)[:, 1]),
 
         executor.submit(_run, models["efficientnet_b4"], x380,
                         lambda m, x: torch.sigmoid(m(x)).squeeze(1)),
@@ -39,11 +43,11 @@ def predict(models, tensors):
                         lambda m, x: torch.sigmoid(m(x)).squeeze(1)),
     ]
 
-    resnet_prob, b0_prob, b4_prob, dino_prob = [f.result() for f in futures]
+    resnet_prob, b4_prob, dino_prob = [f.result() for f in futures]
 
     return {
         "resnet18": float(resnet_prob),
-        "efficientnet_b0": float(b0_prob),
+        # "efficientnet_b0": float(b0_prob),
         "efficientnet_b4": float(b4_prob),
         "dinov2": float(dino_prob),
     }

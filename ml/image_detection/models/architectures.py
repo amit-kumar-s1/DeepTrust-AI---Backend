@@ -133,11 +133,11 @@ def build_models():
     model_resnet.fc = nn.Linear(model_resnet.fc.in_features, 2)
 
     # EfficientNet-B0
-    model_b0 = models.efficientnet_b0(weights=None)
-    model_b0.classifier[1] = nn.Linear(
-        model_b0.classifier[1].in_features,
-        2
-    )
+    # model_b0 = models.efficientnet_b0(weights=None)
+    # model_b0.classifier[1] = nn.Linear(
+      #  model_b0.classifier[1].in_features,
+      #  2
+    #  )
 
     # DeepTrust EfficientNet-B4
     model_b4 = DeepTrustModel()
@@ -147,7 +147,7 @@ def build_models():
 
     return (
         model_resnet,
-        model_b0,
+        # model_b0,
         model_b4,
         model_dino
     )

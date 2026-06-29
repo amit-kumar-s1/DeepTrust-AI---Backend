@@ -31,7 +31,7 @@ if torch.cuda.is_available():
 print("Downloading models from Hugging Face (if needed)...")
 
 RESNET_PATH = download_model("deepfake_image.pth")
-B0_PATH = download_model("best_model_v2.pth")
+# B0_PATH = download_model("best_model_v2.pth")
 B4_PATH = download_model("Gravex200_best_model.pth")
 DINO_PATH = download_model("best_model.pth")
 
@@ -49,7 +49,7 @@ def load_models():
 
     # Build architectures
     try:
-        model_resnet, model_b0, model_b4, model_dino = build_models()
+        model_resnet, model_b4, model_dino = build_models()
     except Exception as e:
         raise RuntimeError(
             f"Failed to build model architectures: {e}"
@@ -71,16 +71,16 @@ def load_models():
     # -----------------------------
     # EfficientNet-B0
     # -----------------------------
-    print("Loading EfficientNet-B0...")
+    # print("Loading EfficientNet-B0...")
 
-    model_b0.load_state_dict(
-        torch.load(
-            B0_PATH,
-            map_location=DEVICE,
-            weights_only=False
-            
-        )
-    )
+    # model_b0.load_state_dict(
+    #     torch.load(
+    #         B0_PATH,
+    #         map_location=DEVICE,
+    #         weights_only=False
+    #         
+    #     )
+    # )
 
     # -----------------------------
     # EfficientNet-B4
@@ -122,7 +122,7 @@ def load_models():
     # -----------------------------
     models = {
         "resnet18": model_resnet.to(DEVICE).eval(),
-        "efficientnet_b0": model_b0.to(DEVICE).eval(),
+        # "efficientnet_b0": model_b0.to(DEVICE).eval(),
         "efficientnet_b4": model_b4.to(DEVICE).eval(),
         "dinov2": model_dino.to(DEVICE).eval(),
     }

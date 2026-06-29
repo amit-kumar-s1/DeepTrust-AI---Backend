@@ -16,14 +16,14 @@ def ensemble_predict(predictions: dict):
 
     # Fast unpack (slightly faster than repeated dict access)
     resnet = predictions.get("resnet18", 0.0)
-    b0 = predictions.get("efficientnet_b0", 0.0)
+    # b0 = predictions.get("efficientnet_b0", 0.0)
     b4 = predictions.get("efficientnet_b4", 0.0)
     dino = predictions.get("dinov2", 0.0)
 
     # Weighted soft voting (better + more stable than plain mean)
     fake_probability = (
         0.25 * resnet +
-        0.20 * b0 +
+        # 0.20 * b0 +
         0.25 * b4 +
         0.30 * dino
     )
@@ -41,7 +41,7 @@ def ensemble_predict(predictions: dict):
         "real_probability": round(real_probability, 4),
         "models": {
             "resnet18": round(resnet, 4),
-            "efficientnet_b0": round(b0, 4),
+            # "efficientnet_b0": round(b0, 4),
             "efficientnet_b4": round(b4, 4),
             "dinov2": round(dino, 4),
         }
